@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Drawing app</title>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app</noscript>
+    <div id="root">
+        <div id="#divName">
+            <label>Drawing name: </label>
+            <input type="text" id="drawingInp"></input>
+        </div>
+        <br />
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <br />
+
+        <div id="#btns">
+            <button id="undoBtn">UNDO</button>
+            <button id="submitBtn">SUBMIT</button>
+        </div>
+    </div>
+</body>
+
+<style>
+    #root>* {
+        display: block;
+        margin: 0 auto;
+    }
+
+    #root>div {
+        text-align: center;
+    }
+
+    #submitBtn {
+        margin-left: 378px;
+    }
+
+
+    #canvas {
+        border: 2px solid #428bca;
+        box-sizing: border-box;
+    }
+</style>
+
+<script src="sketchPad.js"></script>
+<script>
+    function download(content, fileName, contentType) {
+        const a = document.createElement("a");
+        const file = new Blob([content], { type: contentType });
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+    }
+
+    const sketchPad = new SketchPad("canvas");
+    const undoBtn = document.getElementById("undoBtn");
+    undoBtn.addEventListener("click", () => {
+        sketchPad.undo();
+    });
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.addEventListener("click", () => {
+        const name = document.getElementById("drawingInp").value;
+        if (name === "") {
+            alert("Please enter a name for your drawing");
+            return;
+        }
+        if (sketchPad.paths.length === 0) {
+            alert("Please draw something");
+            return;
+        }
+        const drawing = {
+            drawingName: name,
+            paths: sketchPad.paths
+        };
+        // convert to json and save file
+        const json = JSON.stringify(drawing);
+        const blob = new Blob([json], { type: "application/json" });
+
+        download(blob, `${name}.json`, 'text/plain');
+
+    });
+
+</script>
+
+</html>

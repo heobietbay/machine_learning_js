@@ -8,6 +8,10 @@ constants.JSON_DIR = constants.DATASET_DIR + "/json";
 constants.IMG_DIR = constants.DATASET_DIR + "/img";
 constants.SAMPLES = constants.DATASET_DIR + "/samples.json";
 
+const { createCanvas } = require('canvas');
+const canvas = createCanvas(400,400);
+const ctx = canvas.getContext('2d');
+
 const fs = require('fs');
 const fileNames = fs.readdirSync(constants.RAW_DIR);
 const samples = [];
@@ -27,16 +31,17 @@ fileNames.forEach(fn => {
         });
         const paths = JSON.stringify(drawings[label]);
         fs.writeFileSync(`${constants.JSON_DIR}\/${id}.json`, paths);
-        generateImageFromPaths(`${constants.IMG_DIR}\/${id}.png`, paths)
+        ctx.clear(0,0,canvas.width,canvas.height);
+        generateImageFromPaths(`${constants.IMG_DIR}\/${id}.png`, paths, ctx)
         id++;
     }
 }
 );
 fs.writeFileSync(constants.SAMPLES, JSON.stringify(samples));
 
-function generateImageFromPaths(outFile, paths) {
-   draw.drawPaths(ctx, paths);
+function generateImageFromPaths(outFile, paths, ctx) {
+    draw.drawPaths(ctx, paths);
 
-   const buffer = canvas.toBuffer('image/png');
-   fs.writeSync(outFile, buffer);
+    const buffer = canvas.toBuffer('image/png');
+    fs.writeSync(outFile, buffer);
 }

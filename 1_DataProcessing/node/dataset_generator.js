@@ -1,7 +1,7 @@
 const draw = require('../../common/draw.js');
 
 const constants = {};
-constants.DATA_DIR = "../data";
+constants.DATA_DIR = "./data";
 constants.RAW_DIR = constants.DATA_DIR + "/raw";
 constants.DATASET_DIR = constants.DATA_DIR + "/dataset";
 constants.JSON_DIR = constants.DATASET_DIR + "/json";
@@ -29,9 +29,9 @@ fileNames.forEach(fn => {
             student_name,
             student_id
         });
-        const paths = JSON.stringify(drawings[label]);
-        fs.writeFileSync(`${constants.JSON_DIR}\/${id}.json`, paths);
-        ctx.clear(0,0,canvas.width,canvas.height);
+        const paths = drawings[label];
+        fs.writeFileSync(`${constants.JSON_DIR}\/${id}.json`, JSON.stringify(paths));
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         generateImageFromPaths(`${constants.IMG_DIR}\/${id}.png`, paths, ctx)
         id++;
     }
@@ -43,5 +43,5 @@ function generateImageFromPaths(outFile, paths, ctx) {
     draw.drawPaths(ctx, paths);
 
     const buffer = canvas.toBuffer('image/png');
-    fs.writeSync(outFile, buffer);
+    fs.writeFileSync(outFile, buffer);
 }

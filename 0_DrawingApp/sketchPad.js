@@ -21,25 +21,7 @@ class SketchPad {
     #redraw() {
         this.context.clearRect(0, 0,
             this.canvas.width, this.canvas.height);
-        this.#drawPaths(this.context, this.paths);
-    }
-
-    #drawPaths(context, paths) {
-        for (const path of paths) {
-            this.#drawSinglePath(context, path);
-        }
-    }
-
-    #drawSinglePath(ctx, path) {
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(...path[0]);
-        for (let i = 1; i < path.length; i++) {
-            ctx.lineTo(...path[i]);
-        }
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
-        ctx.stroke();
+        drawPaths(this.context, this.paths);
     }
 
     #addEventListeners() {

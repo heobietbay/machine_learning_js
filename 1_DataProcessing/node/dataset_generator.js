@@ -1,12 +1,6 @@
 const draw = require('../../common/draw.js');
-
-const constants = {};
-constants.DATA_DIR = "./data";
-constants.RAW_DIR = constants.DATA_DIR + "/raw";
-constants.DATASET_DIR = constants.DATA_DIR + "/dataset";
-constants.JSON_DIR = constants.DATASET_DIR + "/json";
-constants.IMG_DIR = constants.DATASET_DIR + "/img";
-constants.SAMPLES = constants.DATASET_DIR + "/samples.json";
+const constants = require('../common/constants.js');
+const utils = require('../common/utils.js');
 
 const { createCanvas } = require('canvas');
 const canvas = createCanvas(400,400);
@@ -32,7 +26,10 @@ fileNames.forEach(fn => {
         const paths = drawings[label];
         fs.writeFileSync(`${constants.JSON_DIR}\/${id}.json`, JSON.stringify(paths));
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        generateImageFromPaths(`${constants.IMG_DIR}\/${id}.png`, paths, ctx)
+        generateImageFromPaths(`${constants.IMG_DIR}\/${id}.png`, paths, ctx);
+
+        // each file would have 8 samples.
+        utils.printProgress(id, fileNames.length * 8);
         id++;
     }
 }

@@ -9,6 +9,19 @@ const printProgress = (current, total) => {
   process.stdout.write(`Progress: ${current}/${total} (${formatPercent(percent)})`);
 };
 
+const groupBy = (array, key) => {
+  return array.reduce((result, currentValue) => {
+    const val = currentValue[key];
+    result[val] = result[val] || [];
+    result[val].push(currentValue);
+    return result;
+  }, {});
+};
+
+const utils = {
+  printProgress, groupBy
+};
+
 if(typeof module !== 'undefined') {
-  module.exports = { printProgress };
+  module.exports = utils;
 }

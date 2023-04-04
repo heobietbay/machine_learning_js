@@ -35,7 +35,12 @@
 <script src="../common/utils.js"></script>
 <script src="../common/js_objects/samples.js"></script>
 <script>
-    console.log("samples: ", samples);
+    const groups = utils.groupBy(samples, "student_id");
+    for(let student_id in groups) {
+        const samples = groups[student_id];
+        const studentName = samples[0].student_name;
+        createRow(container, studentName, samples);
+    }
 
 </script>
 

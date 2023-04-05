@@ -15,6 +15,15 @@
         display: flex;
         align-items: center;
     }
+    .row + .row {
+        margin-top: 10px;
+    }
+    .sampleContainer {
+        background-color: #f7f5f1;
+        text-align: center;
+        border-radius: 10%;
+        margin: 1px;
+    }
 
     .rowLabel {
         white-space: nowrap;
@@ -25,12 +34,12 @@
     }
 
     .thumb {
-        width: 60px;
-        height: 60px;
+        width: 72px;
+        height: 72px;
     }
 
-    .thumb+.thumb {
-        margin-left: 15px;
+    .sampleContainer + .sampleContainer {
+        margin-left: 12px;
     }
 </style>
 

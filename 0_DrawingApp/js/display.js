@@ -11,6 +11,7 @@ function createRow(container, studentName, samples) {
     for(let sample of samples) {
        const {id, label} = sample;
        const img = document.createElement('img');
+       img.setAttribute('loading', 'lazy');
        img.src = constants.IMG_DIR + '/' + id + '.png';
        img.classList.add('thumb');
        row.appendChild(img);

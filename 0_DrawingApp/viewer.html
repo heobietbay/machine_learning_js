@@ -11,23 +11,26 @@
 </body>
 
 <style>
-    #root>* {
-        display: block;
-        margin: 0 auto;
+    .row {
+        display: flex;
+        align-items: center;
     }
 
-    #root>div {
-        text-align: center;
+    .rowLabel {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 80px;
+        margin-right: 10px;
     }
 
-    #submitBtn {
-        margin-left: 378px;
+    .thumb {
+        width: 60px;
+        height: 60px;
     }
 
-
-    #canvas {
-        border: 2px solid #428bca;
-        box-sizing: border-box;
+    .thumb+.thumb {
+        margin-left: 15px;
     }
 </style>
 
@@ -38,10 +41,17 @@
 <script src="../common/constants.js"></script>
 <script>
     const groups = utils.groupBy(samples, "student_id");
-    for(let student_id in groups) {
+
+    let count = 0;
+    for (let student_id in groups) {
         const samples = groups[student_id];
         const studentName = samples[0].student_name;
         createRow(container, studentName, samples);
+        count++;
+        // due to memory limit in browser, have to render only first 100
+        if (count == 100) {
+            break;
+        }
     }
 
 </script>

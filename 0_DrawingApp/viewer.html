@@ -86,9 +86,11 @@
         data.addColumn('number', featureNames[0]);
         data.addColumn('number', featureNames[1]);
         data.addColumn({ type: 'string', role: 'style' });
+        data.addColumn({type: 'string', role: 'tooltip'});
         data.addRows(samples.map(sample => [
             ...sample.point,
-            utils.styles[sample.label]
+            utils.styles[sample.label],
+            `${sample.label} - (${sample.point})`
         ]));
         const chart = new google.visualization.ScatterChart(chartContainer);
         chart.draw(data, gchartOptions);

@@ -16,9 +16,11 @@
         display: flex;
         align-items: center;
     }
-    .row + .row {
+
+    .row+.row {
         margin-top: 10px;
     }
+
     .sampleContainer {
         background-color: #f7f5f1;
         text-align: center;
@@ -39,7 +41,7 @@
         height: 72px;
     }
 
-    .sampleContainer + .sampleContainer {
+    .sampleContainer+.sampleContainer {
         margin-left: 12px;
     }
 </style>
@@ -51,7 +53,7 @@
 <script src="../common/constants.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    const {samples, featureNames} = features;
+    const { samples, featureNames } = features;
     const groups = utils.groupBy(samples, "student_id");
 
     let count = 0;
@@ -67,19 +69,27 @@
     }
 
     const gchartOptions = {
-        width:400,
-        height:400,
-        hAxis: {title: featureNames[0]},
-        vAxis: {title: featureNames[1]},
-        legend: {position: 'none'},
+        width: 400,
+        height: 400,
+        hAxis: { title: featureNames[0] },
+        vAxis: { title: featureNames[1] },
+        legend: { position: 'none' },
+        explorer: {
+            maxZoomIn: 0.01,
+            actions: ['dragToZoom', 'rightClickToReset']
+        }
     };
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback( () => {
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(() => {
         const data = new google.visualization.DataTable();
         data.addColumn('number', featureNames[0]);
         data.addColumn('number', featureNames[1]);
-        data.addRows(samples.map(sample => sample.point));
+        data.addColumn({ type: 'string', role: 'style' });
+        data.addRows(samples.map(sample => [
+            ...sample.point,
+            utils.styles[sample.label]
+        ]));
         const chart = new google.visualization.ScatterChart(chartContainer);
         chart.draw(data, gchartOptions);
     });

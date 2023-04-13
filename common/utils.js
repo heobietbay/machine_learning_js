@@ -18,8 +18,18 @@ const groupBy = (array, key) => {
   }, {});
 };
 
+const styles = {
+  car:'gray',
+  fish: 'red',
+  house: 'yellow',
+  tree: 'green',
+  bicyble: 'cyan',
+  guitar: 'blue',
+  pencil: 'magenta',
+  clock: 'lightgray',
+};
 const utils = {
-  printProgress, groupBy
+  printProgress, groupBy, styles
 };
 
 if(typeof module !== 'undefined') {

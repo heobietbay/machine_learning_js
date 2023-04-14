@@ -28,8 +28,18 @@ const styles = {
   pencil: 'magenta',
   clock: 'lightgray',
 };
+const icons = {
+  car:'🚗',
+  fish: '🐟',
+  house: '🏠',
+  tree: '🌲',
+  bicyble: '🚴',
+  guitar: '🎸',
+  pencil: '✎',
+  clock: '🕒',
+};
 const utils = {
-  printProgress, groupBy, styles
+  printProgress, groupBy, styles, icons
 };
 
 if(typeof module !== 'undefined') {

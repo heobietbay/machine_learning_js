@@ -102,8 +102,9 @@
                 return;
             }
             const { row, col } = selection[0];
-            const sample = samples[row];
-            console.log(sample)
+            const {id} = samples[row];
+            const imgSrc = constants.IMG_DIR + '/' + id + '.png';
+            window.open(imgSrc, '_blank');
         });
     });
 </script>

@@ -7,6 +7,7 @@
 
 <body>
     <h1>Data viewer.</h1>
+    <div id="inputContainer"></div>
     <div id="chartContainer"></div>
     <div id="container"></div>
 </body>
@@ -51,61 +52,16 @@
 <script src="../common/js_objects/features.js"></script>
 <script src="./js/display.js"></script>
 <script src="../common/constants.js"></script>
+<script src="sketchPad.js"></script>
+<script src="viewer.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    const { samples, featureNames } = features;
-    const groups = utils.groupBy(samples, "student_id");
-
-    let count = 0;
-    for (let student_id in groups) {
-        const samples = groups[student_id];
-        const studentName = samples[0].student_name;
-        createRow(container, studentName, samples);
-        count++;
-        // due to memory limit in browser, have to render only first 128
-        if (count == 128) {
-            break;
-        }
-    }
-
-    const gchartOptions = {
-        width: 500,
-        height: 500,
-        hAxis: { title: featureNames[0] },
-        vAxis: { title: featureNames[1] },
-        legend: { position: 'none' },
-        explorer: {
-            maxZoomIn: 0.01,
-            actions: ['dragToZoom', 'rightClickToReset']
-        }
-    };
-
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(() => {
-        const data = new google.visualization.DataTable();
-        data.addColumn('number', featureNames[0]);
-        data.addColumn('number', featureNames[1]);
-        data.addColumn({ type: 'string', role: 'style' });
-        data.addColumn({ type: 'string', role: 'tooltip' });
-        data.addRows(samples.map(sample => [
-            ...sample.point,
-            utils.styles[sample.label],
-            `${sample.label} - (${sample.point})`
-        ]));
-        const chart = new google.visualization.ScatterChart(chartContainer);
-        chart.draw(data, gchartOptions);
-
-        // handle click a point in chart
-        google.visualization.events.addListener(chart, 'select', () => {
-            const selection = chart.getSelection();
-            if (selection.length == 0) {
-                return;
-            }
-            const { row, col } = selection[0];
-            const {id} = samples[row];
-            const imgSrc = constants.IMG_DIR + '/' + id + '.png';
-            window.open(imgSrc, '_blank');
-        });
+    document.addEventListener("DOMContentLoaded", () => {
+        const viewer = new Viewer(features,
+            document.getElementById("container"),
+            document.getElementById("chartContainer"));
+        viewer.createRows();
+        viewer.createGoogleChart();
     });
 </script>
 

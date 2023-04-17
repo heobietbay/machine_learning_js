@@ -7,7 +7,14 @@
 
 <body>
     <h1>Data viewer.</h1>
-    <div id="inputContainer"></div>
+    <div id="inputContainer">        
+        <canvas id="canvas" width="400" height="400"></canvas>
+        
+        <br />
+        <div id="#btns">
+            <button id="undoBtn">UNDO</button>
+        </div>
+    </div>
     <div id="chartContainer"></div>
     <div id="container"></div>
 </body>
@@ -20,6 +27,14 @@
 
     .row+.row {
         margin-top: 10px;
+    }
+
+    #canvas {
+        border: 2px solid #428bca;
+        box-sizing: border-box;
+    }
+    #inputContainer, #chartContainer {
+        display: inline-block;
     }
 
     .sampleContainer {
@@ -56,6 +71,11 @@
 <script src="viewer.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
+    const sketchPad = new SketchPad("canvas");
+    const undoBtn = document.getElementById("undoBtn");
+    undoBtn.addEventListener("click", () => {
+        sketchPad.undo();
+    });
     document.addEventListener("DOMContentLoaded", () => {
         const viewer = new Viewer(features,
             document.getElementById("container"),

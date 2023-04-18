@@ -74,12 +74,18 @@
 <script src="viewer.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
+
+  const viewer = new Viewer(features,
+    document.getElementById("container"),
+    document.getElementById("chartContainer"));
+
   const sketchPad = new SketchPad("canvas");
   sketchPad.setOnRedrawed((paths) => {
     const pathCount = featuresUtil.getPathCount(paths);
     const pointCount = featuresUtil.getPointCount(paths);
     const res = { pathCount, pointCount };
     console.log(res);
+    viewer.addNewItemToChart(res);
     return res;
   })
   const undoBtn = document.getElementById("undoBtn");
@@ -87,11 +93,8 @@
     sketchPad.undo();
   });
   document.addEventListener("DOMContentLoaded", () => {
-    const viewer = new Viewer(features,
-      document.getElementById("container"),
-      document.getElementById("chartContainer"));
     viewer.createRows();
-    viewer.createGoogleChart();
+    viewer.createGoogleChartFirstTime();
   });
 </script>
 

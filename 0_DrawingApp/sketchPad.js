@@ -32,10 +32,17 @@ class SketchPad {
   #addEventListeners() {
     this.canvas.addEventListener("mousedown", this.#onMouseDown);
     this.canvas.addEventListener("mousemove", this.#onMouseMove);
-    document.addEventListener("mouseup", () => {
+    this.canvas.addEventListener("mouseup", () => {
       this.isDrawing = false;
       this.onRedrawed(this.paths);
     });
+
+    // theres a bug when integrate with google chart, due to this cannot zoom
+    // comment out this for now.
+    /* document.addEventListener("mouseup", () => {
+      this.isDrawing = false;
+      this.onRedrawed(this.paths);
+    }); */
   }
   #onMouseDown = (event) => {
     this.isDrawing = true;

@@ -27,6 +27,7 @@ const styles = {
   guitar: 'blue',
   pencil: 'magenta',
   clock: 'lightgray',
+  'current drawing': 'black',
 };
 const icons = {
   car:'🚗',

@@ -8,10 +8,10 @@ const getPointCount = (paths) => {
   return allPoints.length;
 };
 
-const features = {
+const featuresUtil = {
   getPathCount, getPointCount
 };
 
 if(typeof module !== 'undefined') {
-  module.exports = features;
+  module.exports = featuresUtil;
 }

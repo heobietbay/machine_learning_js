@@ -2,68 +2,71 @@
 <html lang="en">
 
 <head>
-    <title>Data viewer.</title>
+  <title>Data viewer.</title>
 </head>
 
 <body>
-    <h1>Data viewer.</h1>
-    <div id="inputContainer">        
-        <canvas id="canvas" width="400" height="400"></canvas>
-        
-        <br />
-        <div id="#btns">
-            <button id="undoBtn">UNDO</button>
-        </div>
+  <h1>Data viewer.</h1>
+  <div id="inputContainer">
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+    <br />
+    <div id="#btns">
+      <button id="undoBtn">UNDO</button>
     </div>
-    <div id="chartContainer"></div>
-    <div id="container"></div>
+  </div>
+  <div id="chartContainer"></div>
+  <div id="container"></div>
 </body>
 
 <style>
-    .row {
-        display: flex;
-        align-items: center;
-    }
+  .row {
+    display: flex;
+    align-items: center;
+  }
 
-    .row+.row {
-        margin-top: 10px;
-    }
+  .row+.row {
+    margin-top: 10px;
+  }
 
-    #canvas {
-        border: 2px solid #428bca;
-        box-sizing: border-box;
-    }
-    #inputContainer, #chartContainer {
-        display: inline-block;
-    }
+  #canvas {
+    border: 2px solid #428bca;
+    box-sizing: border-box;
+  }
 
-    .sampleContainer {
-        background-color: #f7f5f1;
-        text-align: center;
-        border-radius: 10%;
-        margin: 1px;
-    }
+  #inputContainer,
+  #chartContainer {
+    display: inline-block;
+  }
 
-    .rowLabel {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 80px;
-        margin-right: 10px;
-    }
+  .sampleContainer {
+    background-color: #f7f5f1;
+    text-align: center;
+    border-radius: 10%;
+    margin: 1px;
+  }
 
-    .thumb {
-        width: 72px;
-        height: 72px;
-    }
+  .rowLabel {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80px;
+    margin-right: 10px;
+  }
 
-    .sampleContainer+.sampleContainer {
-        margin-left: 12px;
-    }
+  .thumb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .sampleContainer+.sampleContainer {
+    margin-left: 12px;
+  }
 </style>
 
 <script src="../common/draw.js"></script>
 <script src="../common/utils.js"></script>
+<script src="../common/featuresUtil.js"></script>
 <script src="../common/js_objects/features.js"></script>
 <script src="./js/display.js"></script>
 <script src="../common/constants.js"></script>
@@ -71,18 +74,25 @@
 <script src="viewer.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    const sketchPad = new SketchPad("canvas");
-    const undoBtn = document.getElementById("undoBtn");
-    undoBtn.addEventListener("click", () => {
-        sketchPad.undo();
-    });
-    document.addEventListener("DOMContentLoaded", () => {
-        const viewer = new Viewer(features,
-            document.getElementById("container"),
-            document.getElementById("chartContainer"));
-        viewer.createRows();
-        viewer.createGoogleChart();
-    });
+  const sketchPad = new SketchPad("canvas");
+  sketchPad.setOnRedrawed((paths) => {
+    const pathCount = featuresUtil.getPathCount(paths);
+    const pointCount = featuresUtil.getPointCount(paths);
+    const res = { pathCount, pointCount };
+    console.log(res);
+    return res;
+  })
+  const undoBtn = document.getElementById("undoBtn");
+  undoBtn.addEventListener("click", () => {
+    sketchPad.undo();
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    const viewer = new Viewer(features,
+      document.getElementById("container"),
+      document.getElementById("chartContainer"));
+    viewer.createRows();
+    viewer.createGoogleChart();
+  });
 </script>
 
 </html>

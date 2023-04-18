@@ -2,7 +2,7 @@ class SketchPad {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
     this.context = this.canvas.getContext("2d");
-
+    this.onRedrawed = () => {}; // default imp, to get rid of null check
     this.#addEventListeners();
     this.reset();
   }
@@ -13,7 +13,8 @@ class SketchPad {
 
   undo() {
     this.paths.pop();
-    this.#redraw();
+    this.#redraw();    
+    this.onRedrawed(this.paths);
   }
 
   reset() {
@@ -33,9 +34,7 @@ class SketchPad {
     this.canvas.addEventListener("mousemove", this.#onMouseMove);
     document.addEventListener("mouseup", () => {
       this.isDrawing = false;
-      if (this.onRedrawed) {
-        this.onRedrawed(this.paths);
-      }
+      this.onRedrawed(this.paths);
     });
   }
   #onMouseDown = (event) => {

@@ -31,6 +31,10 @@ class Viewer {
       point: [item.pathCount, item.pointCount],
       label: 'current drawing',
     };
+    const existingIdx = this.samples.findIndex((item) => item.label === newItem.label);
+    if(existingIdx !== -1) {
+      this.samples.splice(existingIdx,1);
+    }
     this.samples.push(newItem);
     const featureNames = this.featureNames;
     const samples = this.samples;

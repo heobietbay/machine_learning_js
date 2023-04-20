@@ -13,6 +13,7 @@
     <br />
     <div id="#btns">
       <button id="undoBtn">UNDO</button>
+      <button id="boundingBtn">Bound</button>
     </div>
   </div>
   <div id="chartContainer"></div>
@@ -75,22 +76,39 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
 
+  let boundingBox = null; 
+  const canvas = document.getElementById("canvas");
+  const canvasContext = this.canvas.getContext("2d");
   const viewer = new Viewer(features,
     document.getElementById("container"),
     document.getElementById("chartContainer"));
 
   const sketchPad = new SketchPad("canvas");
   sketchPad.setOnRedrawed((paths) => {
+    boundingBox = getBoundingBox(paths);
     const pathCount = featuresUtil.getPathCount(paths);
     const pointCount = featuresUtil.getPointCount(paths);
     const res = { pathCount, pointCount };
-    console.log(res);
     viewer.addNewItemToChart(res);
     return res;
   })
   const undoBtn = document.getElementById("undoBtn");
   undoBtn.addEventListener("click", () => {
     sketchPad.undo();
+  });
+
+  const boundingBtn = document.getElementById("boundingBtn");
+  boundingBtn.addEventListener("click", () => {
+    if(!boundingBox) {
+      return;
+    }
+    canvasContext.beginPath();
+    canvasContext.moveTo(boundingBox.topLeft.x, boundingBox.topLeft.y);
+    canvasContext.lineTo(boundingBox.bottomLeft.x, boundingBox.bottomLeft.y);
+    canvasContext.lineTo(boundingBox.bottomRight.x, boundingBox.bottomRight.y);
+    canvasContext.lineTo(boundingBox.topRight.x, boundingBox.topRight.y);
+    canvasContext.closePath();    
+    canvasContext.stroke();
   });
   document.addEventListener("DOMContentLoaded", () => {
     viewer.createRows();

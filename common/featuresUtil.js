@@ -33,7 +33,7 @@ const getBoundingBox = (paths) => {
       resultCordinate.minY = Math.min(resultCordinate.minY, cordinates.minY);
     }
   }
-  return {
+  return !resultCordinate ? null : {
     topLeft: { x: resultCordinate.minX, y: resultCordinate.maxY },
     bottomLeft: { x: resultCordinate.minX, y: resultCordinate.minY },
     topRight: { x: resultCordinate.maxX, y: resultCordinate.maxY },

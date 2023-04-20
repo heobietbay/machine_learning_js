@@ -99,6 +99,14 @@
 
   const boundingBtn = document.getElementById("boundingBtn");
   boundingBtn.addEventListener("click", () => {
+    drawBoundingBox();
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    viewer.createRows();
+    viewer.createGoogleChartFirstTime();
+  });
+
+  function drawBoundingBox(){
     if(!boundingBox) {
       return;
     }
@@ -109,11 +117,7 @@
     canvasContext.lineTo(boundingBox.topRight.x, boundingBox.topRight.y);
     canvasContext.closePath();    
     canvasContext.stroke();
-  });
-  document.addEventListener("DOMContentLoaded", () => {
-    viewer.createRows();
-    viewer.createGoogleChartFirstTime();
-  });
+  }
 </script>
 
 </html>

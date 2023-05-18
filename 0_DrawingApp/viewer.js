@@ -16,8 +16,8 @@ class Viewer {
       const studentName = samples[0].student_name;
       createRow(this.container, studentName, samples);
       count++;
-      // due to memory limit in browser, have to render only first 128
-      if (count == 128) {
+      // due to memory limit in browser, have to render only first 200
+      if (count == 200) {
         break;
       }
     }

@@ -3,7 +3,7 @@ const utils = require('../../common/utils.js');
 const constants = require('../../common/constants.js');
 
 const { createCanvas } = require('canvas');
-const canvas = createCanvas(400, 400);
+const canvas = createCanvas(600, 600);
 const ctx = canvas.getContext('2d');
 
 const fs = require('fs');

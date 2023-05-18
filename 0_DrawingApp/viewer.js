@@ -28,7 +28,7 @@ class Viewer {
       return;
     }
     const newItem = {
-      point: [item.pathCount, item.pointCount],
+      point: [item.width, item.height],
       label: 'current drawing',
     };
     const existingIdx = this.samples.findIndex((item) => item.label === newItem.label);

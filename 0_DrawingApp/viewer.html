@@ -86,9 +86,9 @@
   const sketchPad = new SketchPad("canvas");
   sketchPad.setOnRedrawed((paths) => {
     boundingBox = getBoundingBox(paths);
-    const pathCount = featuresUtil.getPathCount(paths);
-    const pointCount = featuresUtil.getPointCount(paths);
-    const res = { pathCount, pointCount };
+    const width = boundingBox.topRight.x - boundingBox.topLeft.x;
+    const height = boundingBox.topRight.y - boundingBox.bottomRight.y;
+    const res = { width, height };
     viewer.addNewItemToChart(res);
     return res;
   })

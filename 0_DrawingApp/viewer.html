@@ -76,7 +76,7 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
 
-  let boundingBox = null; 
+  let boundingBox = null;
   const canvas = document.getElementById("canvas");
   const canvasContext = this.canvas.getContext("2d");
   const viewer = new Viewer(features,
@@ -86,11 +86,14 @@
   const sketchPad = new SketchPad("canvas");
   sketchPad.setOnRedrawed((paths) => {
     boundingBox = getBoundingBox(paths);
-    const width = boundingBox.topRight.x - boundingBox.topLeft.x;
-    const height = boundingBox.topRight.y - boundingBox.bottomRight.y;
-    const res = { width, height };
-    viewer.addNewItemToChart(res);
-    return res;
+    if (boundingBox) {
+      const width = boundingBox.topRight.x - boundingBox.topLeft.x;
+      const height = boundingBox.topRight.y - boundingBox.bottomRight.y;
+      const res = { width, height };
+      viewer.addNewItemToChart(res);
+      return res;
+    }
+    return null;
   })
   const undoBtn = document.getElementById("undoBtn");
   undoBtn.addEventListener("click", () => {
@@ -106,8 +109,8 @@
     viewer.createGoogleChartFirstTime();
   });
 
-  function drawBoundingBox(){
-    if(!boundingBox) {
+  function drawBoundingBox() {
+    if (!boundingBox) {
       return;
     }
     canvasContext.beginPath();
@@ -115,7 +118,7 @@
     canvasContext.lineTo(boundingBox.bottomLeft.x, boundingBox.bottomLeft.y);
     canvasContext.lineTo(boundingBox.bottomRight.x, boundingBox.bottomRight.y);
     canvasContext.lineTo(boundingBox.topRight.x, boundingBox.topRight.y);
-    canvasContext.closePath();    
+    canvasContext.closePath();
     canvasContext.stroke();
   }
 </script>

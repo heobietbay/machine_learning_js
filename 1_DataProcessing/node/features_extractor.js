@@ -11,6 +11,9 @@ for (let sample of samples) {
   const paths = JSON.parse(fs.readFileSync(`${constants.JSON_DIR}/${sample.id}.json`));
   // sample.point = [featuresUtil.getPathCount(paths), featuresUtil.getPointCount(paths)];  
   const boundingBox = featuresUtil.getBoundingBox(paths);
+  if(!boundingBox) {
+    continue;
+  }
   sample.point = [boundingBox.topRight.x - boundingBox.topLeft.x,
                   boundingBox.topRight.y - boundingBox.bottomRight.y];
 }
